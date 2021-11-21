@@ -1,4 +1,4 @@
-class chathon:
+class Chathon:
     def __init__(self, bot_name:str, prefix:str):
         cmd = input("You : ")
         self.cmd = cmd
@@ -7,13 +7,16 @@ class chathon:
 
     def command(self):
         def decorator(func):
-            user_input = self.cmd
             prefix = self.prefix
-            if prefix in user_input:
-                get_cmd = user_input.replace(prefix, "")
-                if func.__name__ in get_cmd:
-                    response = func()
-                    return response
+            if prefix in self.cmd:
+                if func.__name__ in self.cmd:
+                    arguments = self.cmd.split(" ")[1:]
+                    try:
+                        response = func(*arguments)
+                    except TypeError:
+                        print("You put too much/less arguments")
+                    else:    
+                        return response
 
             else:
                 raise TypeError("Invalid Prefix")
