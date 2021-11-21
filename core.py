@@ -6,12 +6,17 @@ class chathon:
         self.bot_name = bot_name
 
     def command(self):
-        def decorator(func, **kwargs):
-            if self.cmd.startswith(f"{self.prefix}{func.__name__}"):
-                response = func(**kwargs)
-                return response
+        def decorator(func):
+            user_input = self.cmd
+            prefix = self.prefix
+            if prefix in user_input:
+                get_cmd = user_input.replace(prefix, "")
+                if func.__name__ in get_cmd:
+                    response = func()
+                    return response
+
             else:
-                raise TypeError("Command not found")
+                raise TypeError("Invalid Prefix")
 
         return decorator
 
